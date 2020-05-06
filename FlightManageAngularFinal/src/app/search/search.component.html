@@ -1,0 +1,74 @@
+<section class="col-md-9 mx-auto mt-10">
+  <form  #frm="ngForm" (ngSubmit)="searchFlight()" >
+     <div class="form-group row">
+       <div class="mt-2"><b>FROM:</b></div>&nbsp;&nbsp;
+       <input type="text"  name="sAirport" #aairport="ngModel" [(ngModel)]="search.sourceAirport" placeholder="Source Airport" class="form-control col-md-3" />&nbsp;&nbsp;&nbsp;
+       <div class="mt-2"><b>TO:</b></div>&nbsp;&nbsp;
+       <input type="text" name="dAirport" #dairport="ngModel"  [(ngModel)]="search.destinationAirport" placeholder="Destination Airport"  class="form-control col-md-3" />&nbsp;&nbsp;&nbsp;
+
+
+    <div  style="text-align: center;"><input type="submit"  value="Search"  class="btn btn-dark"/></div>
+
+     </div>
+    <div *ngIf="dairport.dirty && aairport.dirty && search.sourceAirport!=null && search.destinationAirport!=null">
+      <div *ngIf="search.sourceAirport==search.destinationAirport" class="alert alert-danger">
+            Source and Destination Airport must not be same
+      </div>
+      </div><hr>
+
+
+</form>
+</section>
+
+
+<div class="container">
+
+<div class="alert alert-danger" *ngIf="errorInfo!=undefined">{{errorInfo}}</div>
+
+<div class="row">
+  <div *ngFor="let obj of scheduleList">
+    <div class="card text-black" style="width: 27rem; height: 36rem;">
+      <div class="card-body">
+        <h2 class="card-title">{{ obj.flight.flightNumber }}</h2>
+        <br />
+
+        <b>Departure Time</b> : {{ obj.departureTime }} <b>Arrival Time </b> :
+        {{ obj.arrivalTime }}<br /><br/>
+
+
+        <h5>FROM :</h5>
+        <b>Airport Code :</b> {{ obj.sourceAirport.airportCode }}<br />
+        <b>Airport Name :</b> {{ obj.sourceAirport.airportName }}<br />
+        <b>Airport Location :</b>{{ obj.sourceAirport.airportLocation
+        }}<br /><br />
+
+        <h5>TO :</h5>
+
+        <b>Airport Code :</b> {{ obj.destinationAirport.airportCode }}<br />
+        <b>Airport Name :</b> {{ obj.destinationAirport.airportName }}<br />
+        <b>Airport Location :</b>{{ obj.destinationAirport.airportLocation}}<br /><br/>
+
+        <b>Ticket Cost</b>:{{ obj.ticketCost }}<br /><br />
+
+        <button
+          class="btn btn-dark text-white"
+          (click)="delete(obj.scheduleId)"
+        >
+          Delete</button>&nbsp;&nbsp;&nbsp;
+
+        <button
+          class="btn btn-dark text-white"
+          routerLink="/update"
+          (click)="updateId(obj.scheduleId)"
+        >
+          Update
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br /><br />
+
+

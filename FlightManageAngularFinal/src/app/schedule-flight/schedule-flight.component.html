@@ -1,0 +1,112 @@
+<h1 style="text-align: center;font-family: fantasy;">Admin</h1>
+<section class="col-md-6 mx-auto mt-4">
+
+  <div *ngIf="successFlag" class="alert alert-success">Scheduled Sucessfully !</div>
+
+      <h2 style="text-align: center;">Schedule <b>A</b> Flight</h2>
+
+<form class="container"  #frm="ngForm" (ngSubmit)="addSchedule()">
+
+
+    <div class="mt-3"><b>Flight Number Available</b></div>
+
+    <select  [(ngModel)]="Addedschedule.flight" name="flight_num" class="form-control" #flight="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && flight.pristine || frm.submitted && flight.invalid }"  required>
+      <option value="">--None--</option>
+      <option *ngFor="let fli of flights" >{{fli}}</option>
+    </select>
+
+
+    <div *ngIf="flight.invalid " class="invalid-feedback">
+       <div *ngIf="flight.errors.required">Please select flight number</div>
+    </div>
+
+
+    <div class="mt-3"><b>SourceAirport</b></div>
+     <select  [(ngModel)]="Addedschedule.sourceAirport" name="source" #airport="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && airport.pristine || frm.submitted && airport.invalid }" class="form-control" required>
+       <option value="">--None--</option>
+       <option *ngFor="let airport of airportsData" >{{airport}}</option>
+    </select>
+    <div *ngIf="airport.invalid " class="invalid-feedback">
+      <div *ngIf="airport.errors.required">Please select Airport Code</div>
+    </div>
+
+
+    <div class="mt-3"><b>Departure time</b></div>
+    <div><input type="time" name="departureTime"  [(ngModel)]="Addedschedule.departureTime" #dTime="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && dTime.invalid || dTime.touched && dTime.pristine}"  class="form-control" required/>
+     <small class="form-text text-muted">Enter date and time</small>
+    </div>
+    <div *ngIf="dTime.invalid" class="invalid-feedback">
+      <div *ngIf="dTime.errors.required">Departure time is Required!Please Enter</div>
+     </div>
+
+
+    <div class="mt-3"><b>Destination Airport</b></div>
+     <select  [(ngModel)]="Addedschedule.destinationAirport" name="destination" #airport1="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && airport1.pristine || frm.submitted && airport1.invalid }" class="form-control" required>
+       <option value="">--None--</option>
+       <option *ngFor="let airport of airportsData" >{{airport}}</option>
+    </select>
+    <div *ngIf="airport1.invalid " class="invalid-feedback">
+      <div *ngIf="airport1.errors.required">Please select Airport Code</div>
+    </div>
+    <div *ngIf="airport.dirty && airport1.dirty">
+    <div *ngIf="Addedschedule.destinationAirport==Addedschedule.sourceAirport" class="alert alert-danger">
+      <small>Source and Destination cannot not be same</small>
+    </div>
+    </div>
+
+
+
+
+
+    <div class="mt-3"><b>Arrival time</b></div>
+    <div><input type="time" name="arrivalTime" [(ngModel)]="Addedschedule.arrivalTime"  #aTime="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && aTime.invalid || aTime.touched && aTime.pristine}" class="form-control" required/>
+      <small class="form-text text-muted">Enter date and time</small>
+    </div>
+    <div *ngIf="aTime.invalid" class="invalid-feedback">
+      <div *ngIf="aTime.errors.required">Arrival time is Required!Please Enter</div>
+     </div>
+       <div *ngIf="aTime.dirty && dTime.dirty">
+      <div *ngIf="Addedschedule.arrivalTime<Addedschedule.departureTime" class="alert alert-danger">
+        <small>Departure time cannot not be greater than Arrival time</small>
+      </div>
+      <div *ngIf="Addedschedule.arrivalTime==Addedschedule.departureTime" class="alert alert-danger">
+        <small>Arrival time and departure time cannot not be same</small>
+      </div>
+      </div>
+
+
+
+
+
+     <div class="mt-3"><b>Ticket Cost</b></div>
+     <div><input type="number" name="seats" [(ngModel)]="Addedschedule.ticketCost" #cost="ngModel" [ngClass]="{ 'is-invalid': frm.submitted && cost.invalid ||cost.touched && cost.pristine  }"  class="form-control"  minlength="3"  required/>
+    </div>
+         <div *ngIf="cost.invalid || cost.touched && cost.pristine" class="invalid-feedback">
+          <div *ngIf="cost.errors.required">Enter No.of Seats Available</div>
+     </div>
+     <div *ngIf="Addedschedule.ticketCost<0" class="alert alert-danger">Ticket Cost cannot less than zero</div>
+
+
+     <div class="mt-3"><b>Available seats</b></div>
+     <div><input type="number" name="seats" [(ngModel)]="Addedschedule.availableSeats" #seats1=ngModel maxlength=4 [ngClass]="{ 'is-invalid': frm.submitted && seats1.invalid ||seats1.touched && seats1.pristine  }"  class="form-control" required/>
+    </div>
+         <div *ngIf="seats1.invalid || seats1.touched && seats1.pristine" class="invalid-feedback">
+          <div *ngIf="seats1.errors.required">Enter No.of Seats Available</div>
+         </div>
+         <div *ngIf="Addedschedule.availableSeats >186" class="alert alert-danger">
+                 Maximum seat capacity is 186
+         </div>
+         <div *ngIf="Addedschedule.availableSeats <0" class="alert alert-danger">Available seats can't be negative</div>
+
+
+
+
+    <div class="mt-3" style="text-align: center;"><input type="submit"  value="Schedule it" [disabled]="!frm.valid"  class="btn btn-dark" /></div>
+
+
+
+  </form><br/><br/><br/><br/><br/>
+
+
+</section>
+

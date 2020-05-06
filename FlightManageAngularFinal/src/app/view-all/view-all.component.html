@@ -1,0 +1,52 @@
+<div class="container">
+  <div
+    class="alert alert-danger"
+    *ngIf="errorInfo != undefined"
+    [innerHTML]="errorInfo"
+  ></div>
+
+  <div class="row">
+    <div *ngFor="let obj of scheduleList">
+      <div class="card text-black" style="width: 27rem; height: 36rem;">
+        <div class="card-body">
+          <h2 class="card-title">{{ obj.flight.flightNumber }}</h2>
+          <br />
+
+          <b>Departure Time</b> : {{ obj.departureTime }} <b>Arrival Time </b> :
+          {{ obj.arrivalTime }}<br /><br/>
+
+
+          <h5>FROM :</h5>
+          <b>Airport Code :</b> {{ obj.sourceAirport.airportCode }}<br />
+          <b>Airport Name :</b> {{ obj.sourceAirport.airportName }}<br />
+          <b>Airport Location :</b>{{ obj.sourceAirport.airportLocation
+          }}<br /><br />
+
+          <h5>TO :</h5>
+
+          <b>Airport Code :</b> {{ obj.destinationAirport.airportCode }}<br />
+          <b>Airport Name :</b> {{ obj.destinationAirport.airportName }}<br />
+          <b>Airport Location :</b>{{ obj.destinationAirport.airportLocation}}<br/><br/>
+
+          <b>Ticket Cost</b>:{{ obj.ticketCost }}<br/><br/>
+
+          <button
+            class="btn btn-dark text-white"
+            (click)="delete(obj.scheduleId)"
+          >
+            Delete</button
+          >&nbsp;&nbsp;&nbsp;
+
+          <button
+            class="btn btn-dark text-white"
+            routerLink="/update"
+            (click)="updateId(obj.scheduleId)"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br /><br />
